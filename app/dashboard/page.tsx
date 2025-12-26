@@ -112,7 +112,7 @@ export default function DashboardPage() {
   const fetchCustomers = useCallback(async (authToken: string) => {
     try {
       console.log('Fetching customers with token:', authToken ? 'Present' : 'Missing');
-      const response = await fetch('https://localhost:7160/api/customer', {
+      const response = await fetch('https://firat63-001-site1.anytempurl.com/api/customer', {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
@@ -147,7 +147,7 @@ export default function DashboardPage() {
   const fetchCurrencies = useCallback(async (authToken: string) => {
     try {
       console.log('Fetching currencies with token:', authToken ? 'Present' : 'Missing');
-      const response = await fetch('https://localhost:7160/api/currency', {
+      const response = await fetch('https://firat63-001-site1.anytempurl.com/api/currency', {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
@@ -177,7 +177,7 @@ export default function DashboardPage() {
 
   const fetchUsers = useCallback(async (authToken: string) => {
     try {
-      const response = await fetch('https://localhost:7160/api/auth/users', {
+      const response = await fetch('https://firat63-001-site1.anytempurl.com/api/auth/users', {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
@@ -266,7 +266,7 @@ export default function DashboardPage() {
 
   const fetchCustomerCurrencies = async (customerId: string, authToken: string) => {
     try {
-      const response = await fetch(`https://localhost:7160/api/customercurrency/customer/${customerId}`, {
+      const response = await fetch(`https://firat63-001-site1.anytempurl.com/api/customercurrency/customer/${customerId}`, {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
@@ -307,7 +307,7 @@ export default function DashboardPage() {
         setErrorMessage('Customer name is required.');
         return;
       }
-      const response = await fetch('https://localhost:7160/api/customer', {
+      const response = await fetch('https://firat63-001-site1.anytempurl.com/api/customer', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -325,7 +325,7 @@ export default function DashboardPage() {
         // Link currency to customer if selected
         if (customerForm.currencyId && customerForm.amount > 0) {
           try {
-            await fetch('https://localhost:7160/api/customercurrency', {
+            await fetch('https://firat63-001-site1.anytempurl.com/api/customercurrency', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -387,7 +387,7 @@ export default function DashboardPage() {
     setSuccessMessage('');
 
     try {
-      const response = await fetch('https://localhost:7160/api/auth/register', {
+      const response = await fetch('https://firat63-001-site1.anytempurl.com/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -445,7 +445,7 @@ export default function DashboardPage() {
       console.log('Creating currency with payload:', payload);
       console.log('Token:', token ? 'Present' : 'Missing');
 
-      const response = await fetch('https://localhost:7160/api/currency', {
+      const response = await fetch('https://firat63-001-site1.anytempurl.com/api/currency', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -500,7 +500,7 @@ export default function DashboardPage() {
     }
 
     try {
-      const response = await fetch('https://localhost:7160/api/customercurrency', {
+      const response = await fetch('https://firat63-001-site1.anytempurl.com/api/customercurrency', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -543,7 +543,7 @@ export default function DashboardPage() {
 
     try {
       setLoading(true);
-      const response = await fetch(`https://localhost:7160/api/customercurrency/${customerCurrencyId}`, {
+      const response = await fetch(`https://firat63-001-site1.anytempurl.com/api/customercurrency/${customerCurrencyId}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -591,7 +591,7 @@ export default function DashboardPage() {
         setLoading(false);
         return;
       }
-      const response = await fetch(`https://localhost:7160/api/customer/${customerForm.customerId}`, {
+      const response = await fetch(`https://firat63-001-site1.anytempurl.com/api/customer/${customerForm.customerId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -624,7 +624,7 @@ export default function DashboardPage() {
 
     setLoading(true);
     try {
-      const response = await fetch(`https://localhost:7160/api/customer/${customerId}`, {
+      const response = await fetch(`https://firat63-001-site1.anytempurl.com/api/customer/${customerId}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -662,7 +662,7 @@ export default function DashboardPage() {
     setSuccessMessage('');
 
     try {
-      const response = await fetch(`https://localhost:7160/api/auth/users/${editingUser?.userId}`, {
+      const response = await fetch(`https://firat63-001-site1.anytempurl.com/api/auth/users/${editingUser?.userId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -691,7 +691,7 @@ export default function DashboardPage() {
 
     setLoading(true);
     try {
-      const response = await fetch(`https://localhost:7160/api/auth/users/${userId}`, {
+      const response = await fetch(`https://firat63-001-site1.anytempurl.com/api/auth/users/${userId}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -736,7 +736,7 @@ export default function DashboardPage() {
         return;
       }
 
-      const response = await fetch(`https://localhost:7160/api/auth/users/${selectedUserForPassword?.userId}/set-password`, {
+      const response = await fetch(`https://firat63-001-site1.anytempurl.com/api/auth/users/${selectedUserForPassword?.userId}/set-password`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -775,7 +775,7 @@ export default function DashboardPage() {
         return;
       }
 
-      const response = await fetch(`https://localhost:7160/api/auth/customers/${selectedCustomerForPassword?.customerId}/set-password`, {
+      const response = await fetch(`https://firat63-001-site1.anytempurl.com/api/auth/customers/${selectedCustomerForPassword?.customerId}/set-password`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -817,7 +817,7 @@ export default function DashboardPage() {
     setSuccessMessage('');
 
     try {
-      const response = await fetch(`https://localhost:7160/api/currency/${editingCurrency?.currencyId}`, {
+      const response = await fetch(`https://firat63-001-site1.anytempurl.com/api/currency/${editingCurrency?.currencyId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -853,7 +853,7 @@ export default function DashboardPage() {
 
     setLoading(true);
     try {
-      const response = await fetch(`https://localhost:7160/api/currency/${currencyId}`, {
+      const response = await fetch(`https://firat63-001-site1.anytempurl.com/api/currency/${currencyId}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -1915,3 +1915,4 @@ export default function DashboardPage() {
     </div>
   );
 }
+

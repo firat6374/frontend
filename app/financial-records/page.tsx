@@ -90,7 +90,7 @@ export default function FinancialRecordsPage() {
 
   const fetchCustomers = useCallback(async (token: string) => {
     try {
-      const response = await fetch('https://localhost:7160/api/customer', {
+      const response = await fetch('https://firat63-001-site1.anytempurl.com/api/customer', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -114,7 +114,7 @@ export default function FinancialRecordsPage() {
 
   const fetchUsers = useCallback(async (token: string) => {
     try {
-      const response = await fetch('https://localhost:7160/api/auth/users', {
+      const response = await fetch('https://firat63-001-site1.anytempurl.com/api/auth/users', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -131,7 +131,7 @@ export default function FinancialRecordsPage() {
 
   const fetchCustomerCurrencies = async (customerId: string, token: string) => {
     try {
-      const response = await fetch(`https://localhost:7160/api/customercurrency/customer/${customerId}`, {
+      const response = await fetch(`https://firat63-001-site1.anytempurl.com/api/customercurrency/customer/${customerId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -155,7 +155,7 @@ export default function FinancialRecordsPage() {
 
   const fetchRecords = useCallback(async (token: string) => {
     try {
-      const response = await fetch('https://localhost:7160/api/financialrecord', {
+      const response = await fetch('https://firat63-001-site1.anytempurl.com/api/financialrecord', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -191,7 +191,7 @@ export default function FinancialRecordsPage() {
       setLoading(true);
       setErrorMessage('');
       
-      const response = await fetch('https://localhost:7160/api/financialrecord', {
+      const response = await fetch('https://firat63-001-site1.anytempurl.com/api/financialrecord', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -240,7 +240,7 @@ export default function FinancialRecordsPage() {
       setLoading(true);
       setErrorMessage('');
       
-      const response = await fetch('https://localhost:7160/api/financialrecord', {
+      const response = await fetch('https://firat63-001-site1.anytempurl.com/api/financialrecord', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -797,3 +797,4 @@ export default function FinancialRecordsPage() {
     </div>
   );
 }
+

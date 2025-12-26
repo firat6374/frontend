@@ -16,7 +16,7 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const response = await fetch('https://localhost:7160/api/auth/login', {
+      const response = await fetch('https://firat63-001-site1.anytempurl.com/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
