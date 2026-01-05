@@ -7,7 +7,11 @@ import LanguageSwitcher from '@/components/LanguageSwitcher';
 import ThemeSwitcher from '@/components/ThemeSwitcher';
 
 interface User {
+  userId?: string;
   email: string;
+  userFirstName?: string;
+  userLastName?: string;
+  isAdmin?: boolean;
 }
 
 interface Customer {
@@ -242,7 +246,7 @@ export default function DashboardPage() {
     if (typeof window === 'undefined') return;
 
     const userData = window.localStorage.getItem('user');
-    let parsedUser: User | null = null;
+    let parsedUser: any = null;
     try {
       parsedUser = userData ? JSON.parse(userData) : null;
     } catch {
@@ -256,13 +260,25 @@ export default function DashboardPage() {
       return;
     }
 
-    setUser(parsedUser);
+    // normalize parsed user
+    const normalizedUser: User | null = parsedUser
+      ? {
+          userId: parsedUser.userId || parsedUser.userId || undefined,
+          email: parsedUser.email || parsedUser.Email || '',
+          userFirstName: parsedUser.userFirstName || parsedUser.firstName || parsedUser.userFirstName || undefined,
+          userLastName: parsedUser.userLastName || parsedUser.lastName || parsedUser.userLastName || undefined
+        }
+      : null;
+
+    setUser(normalizedUser);
     setToken(savedToken);
     // Use stable callbacks as dependencies to satisfy exhaustive-deps without loops
     fetchCustomers(savedToken);
     fetchCurrencies(savedToken);
     fetchUsers(savedToken);
   }, [router, fetchCustomers, fetchCurrencies, fetchUsers]);
+
+  const isAdmin = user && user.email === 'admin@nur18gold.com';
 
   const fetchCustomerCurrencies = async (customerId: string, authToken: string) => {
     try {
@@ -938,23 +954,27 @@ export default function DashboardPage() {
             <div className="text-xs sm:text-sm text-blue-100">{t('customer.createNew')}</div>
           </button>
 
-          <button
-            onClick={() => setShowUserModal(true)}
-            className="p-4 sm:p-6 bg-linear-to-br from-purple-500 to-pink-600 text-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow"
-          >
-            <div className="text-2xl sm:text-3xl mb-2">👤</div>
-            <div className="font-bold text-base sm:text-lg">{t('btn.addUser')}</div>
-            <div className="text-xs sm:text-sm text-purple-100">{t('user.createAccount')}</div>
-          </button>
+          {isAdmin && (
+            <button
+              onClick={() => setShowUserModal(true)}
+              className="p-4 sm:p-6 bg-linear-to-br from-purple-500 to-pink-600 text-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow"
+            >
+              <div className="text-2xl sm:text-3xl mb-2">👤</div>
+              <div className="font-bold text-base sm:text-lg">{t('btn.addUser')}</div>
+              <div className="text-xs sm:text-sm text-purple-100">{t('user.createAccount')}</div>
+            </button>
+          )}
 
-          <button
-            onClick={() => setShowCurrencyModal(true)}
-            className="p-4 sm:p-6 bg-linear-to-br from-emerald-500 to-teal-600 text-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow"
-          >
-            <div className="text-2xl sm:text-3xl mb-2">💱</div>
-            <div className="font-bold text-base sm:text-lg">{t('btn.addCurrency')}</div>
-            <div className="text-xs sm:text-sm text-emerald-100">{t('currency.createNew')}</div>
-          </button>
+          {isAdmin && (
+            <button
+              onClick={() => setShowCurrencyModal(true)}
+              className="p-4 sm:p-6 bg-linear-to-br from-emerald-500 to-teal-600 text-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow"
+            >
+              <div className="text-2xl sm:text-3xl mb-2">💱</div>
+              <div className="font-bold text-base sm:text-lg">{t('btn.addCurrency')}</div>
+              <div className="text-xs sm:text-sm text-emerald-100">{t('currency.createNew')}</div>
+            </button>
+          )}
         </div>
 
         {/* Summary Cards */}
@@ -999,15 +1019,17 @@ export default function DashboardPage() {
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                         </svg>
                       </button>
-                      <button
-                        onClick={() => handleDeleteCustomer(customer.customerId)}
-                        className="p-1 text-red-600 hover:bg-red-100 dark:text-red-400 dark:hover:bg-red-900/30 rounded"
-                        title="Delete"
-                      >
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                        </svg>
-                      </button>
+                      {isAdmin && (
+                        <button
+                          onClick={() => handleDeleteCustomer(customer.customerId)}
+                          className="p-1 text-red-600 hover:bg-red-100 dark:text-red-400 dark:hover:bg-red-900/30 rounded"
+                          title="Delete"
+                        >
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                          </svg>
+                        </button>
+                      )}
                     </div>
                   </div>
                 ))
@@ -1016,9 +1038,10 @@ export default function DashboardPage() {
           </div>
 
           {/* Users Summary */}
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 dark:bg-gray-800/80">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white">All Users</h3>
+          {isAdmin && (
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 dark:bg-gray-800/80">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white">All Users</h3>
               <div className="bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-300 rounded-full p-2">
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
@@ -1070,8 +1093,10 @@ export default function DashboardPage() {
               )}
             </div>
           </div>
+          )}
 
           {/* Currencies Summary */}
+          {isAdmin && (
           <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 dark:bg-gray-800/80">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-bold text-gray-900 dark:text-white">All Currencies</h3>
@@ -1117,6 +1142,7 @@ export default function DashboardPage() {
               )}
             </div>
           </div>
+          )}
         </div>
 
         {/* Customers List */}

@@ -50,6 +50,7 @@ const translations = {
     // Financial Records
     'records.title': 'Financial Records',
     'records.userName': 'User Name',
+    'records.type': 'Type',
     'records.typeOfOperation': 'Type of operation',
     'records.amount': 'Amount',
     'records.currency': 'Currency',
@@ -103,6 +104,10 @@ const translations = {
     'msg.customerCreated': 'Customer created successfully!',
     'msg.userCreated': 'User created successfully!',
     'msg.currencyCreated': 'Currency created successfully!',
+    'msg.noCustomers': 'No customers yet',
+    'msg.noTransactions': 'No transactions for this customer',
+    'msg.selectCustomer': 'Select a Customer',
+    'msg.chooseCustomer': 'Choose a customer from the list to view their records',
     
     // Operations
     'op.input': 'Input',
@@ -116,6 +121,30 @@ const translations = {
     'placeholder.firstName': 'First name',
     'placeholder.lastName': 'Last name',
     'placeholder.password': 'Minimum 6 characters',
+    
+    // Login
+    'login.title': 'Welcome Back',
+    'login.subtitle': 'Sign in to your account',
+    'login.emailLabel': 'Email Address',
+    'login.passwordLabel': 'Password',
+    'login.emailPlaceholder': 'admin@nur18gold.com',
+    'login.passwordPlaceholder': 'Enter your password',
+    'login.signingIn': 'Signing in...',
+    'login.signIn': 'Sign In',
+    'login.testCredentials': 'Test Credentials:',
+    'login.admin': 'Admin:',
+    'login.password': 'P.W.:',
+    'login.rememberMe': 'Remember me',
+    
+    // Pagination
+    'pagination.show': 'Show:',
+    'pagination.perPage': 'per page',
+    'pagination.showing': 'Showing',
+    'pagination.to': 'to',
+    'pagination.of': 'of',
+    'pagination.records': 'records',
+    'pagination.previous': 'Previous',
+    'pagination.next': 'Next',
   },
   tr: {
     // Navigation
@@ -154,6 +183,7 @@ const translations = {
     // Financial Records
     'records.title': 'Mali Kayıtlar',
     'records.userName': 'Kullanıcı Adı',
+    'records.type': 'Tür',
     'records.typeOfOperation': 'İşlem Türü',
     'records.amount': 'Tutar',
     'records.currency': 'Para Birimi',
@@ -207,6 +237,10 @@ const translations = {
     'msg.customerCreated': 'Müşteri başarıyla oluşturuldu!',
     'msg.userCreated': 'Kullanıcı başarıyla oluşturuldu!',
     'msg.currencyCreated': 'Para birimi başarıyla oluşturuldu!',
+    'msg.noCustomers': 'Henüz müşteri yok',
+    'msg.noTransactions': 'Bu müşteri için işlem yok',
+    'msg.selectCustomer': 'Müşteri Seçin',
+    'msg.chooseCustomer': 'Kayıtlarını görüntülemek için listeden bir müşteri seçin',
     
     // Operations
     'op.input': 'Giriş',
@@ -220,6 +254,30 @@ const translations = {
     'placeholder.firstName': 'Ad',
     'placeholder.lastName': 'Soyad',
     'placeholder.password': 'En az 6 karakter',
+    
+    // Login
+    'login.title': 'Hoş Geldiniz',
+    'login.subtitle': 'Hesabınıza giriş yapın',
+    'login.emailLabel': 'E-posta Adresi',
+    'login.passwordLabel': 'Şifre',
+    'login.emailPlaceholder': 'admin@nur18gold.com',
+    'login.passwordPlaceholder': 'Şifrenizi girin',
+    'login.signingIn': 'Giriş yapılıyor...',
+    'login.signIn': 'Giriş Yap',
+    'login.testCredentials': 'Test Kimlik Bilgileri:',
+    'login.admin': 'Admin:',
+    'login.password': 'Şifre:',
+    'login.rememberMe': 'Beni hatırla',
+    
+    // Pagination
+    'pagination.show': 'Göster:',
+    'pagination.perPage': 'sayfa başına',
+    'pagination.showing': 'Gösterilen',
+    'pagination.to': 'ila',
+    'pagination.of': 'toplam',
+    'pagination.records': 'kayıt',
+    'pagination.previous': 'Önceki',
+    'pagination.next': 'Sonraki',
   },
 };
 
@@ -231,7 +289,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
         return savedLanguage;
       }
     }
-    return 'en';
+    return 'tr';
   });
 
   const setLanguage = (lang: Language) => {
