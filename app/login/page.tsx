@@ -1,14 +1,35 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useLanguage } from '@/contexts/LanguageContext';
+import LanguageSwitcher from '@/components/LanguageSwitcher';
 
 export default function LoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState('admin@ecommerce.com');
-  const [password, setPassword] = useState('Admin123!');
+  const { t } = useLanguage();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  // Load saved credentials on mount
+  useEffect(() => {
+    setMounted(true);
+    const savedEmail = localStorage.getItem('savedEmail');
+    const savedPassword = localStorage.getItem('savedPassword');
+    if (savedEmail && savedPassword) {
+      setEmail(savedEmail);
+      setPassword(savedPassword);
+      setRememberMe(true);
+    }
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,7 +53,16 @@ export default function LoginPage() {
 
       const data = await response.json();
       
-      // Store the token in localStorage
+      // Save or remove credentials based on remember me checkbox
+      if (rememberMe) {
+        localStorage.setItem('savedEmail', email);
+        localStorage.setItem('savedPassword', password);
+      } else {
+        localStorage.removeItem('savedEmail');
+        localStorage.removeItem('savedPassword');
+      }
+      
+      // Store the token and user info in localStorage
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify({
         userId: data.userId,
@@ -52,14 +82,17 @@ export default function LoginPage() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-linear-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 px-4">
+      <div className="absolute top-4 right-4">
+        <LanguageSwitcher />
+      </div>
       <div className="w-full max-w-md">
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-              Welcome Back
+              {t('login.title')}
             </h1>
             <p className="text-gray-600 dark:text-gray-400">
-              Sign in to your account
+              {t('login.subtitle')}
             </p>
           </div>
 
@@ -69,7 +102,7 @@ export default function LoginPage() {
                 htmlFor="email" 
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
               >
-                Email Address
+                {t('login.emailLabel')}
               </label>
               <input
                 id="email"
@@ -78,7 +111,7 @@ export default function LoginPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-colors"
-                placeholder="admin@ecommerce.com"
+                placeholder={t('login.emailPlaceholder')}
               />
             </div>
 
@@ -87,7 +120,7 @@ export default function LoginPage() {
                 htmlFor="password" 
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
               >
-                Password
+                {t('login.passwordLabel')}
               </label>
               <input
                 id="password"
@@ -96,8 +129,24 @@ export default function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-colors"
-                placeholder="Enter your password"
+                placeholder={t('login.passwordPlaceholder')}
               />
+            </div>
+
+            <div className="flex items-center">
+              <input
+                id="rememberMe"
+                type="checkbox"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+              />
+              <label
+                htmlFor="rememberMe"
+                className="ml-2 text-sm font-medium text-gray-700 dark:text-gray-300"
+              >
+                {t('login.rememberMe')}
+              </label>
             </div>
 
             {error && (
@@ -111,21 +160,9 @@ export default function LoginPage() {
               disabled={loading}
               className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
-              {loading ? 'Signing in...' : 'Sign In'}
+              {loading ? t('login.signingIn') : t('login.signIn')}
             </button>
           </form>
-
-          <div className="mt-6 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-            <p className="text-xs text-gray-600 dark:text-gray-400 mb-2 font-semibold">
-              Test Credentials:
-            </p>
-            <p className="text-xs text-gray-700 dark:text-gray-300">
-              <span className="font-medium">Admin:</span> admin@ecommerce.com
-            </p>
-            <p className="text-xs text-gray-700 dark:text-gray-300">
-              <span className="font-medium">P.W.:</span> Admin123!
-            </p>
-          </div>
         </div>
       </div>
     </div>
